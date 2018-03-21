@@ -1,28 +1,51 @@
 package br.usjt.arqsw.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+
+/**
+ * 
+ * @author pgsilva
+ * Paulo Guilherme da Silva 816113977
+ *
+ */
 @Entity
-public class Chamado {
+@Table(name="UF")
+public class Chamado implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7398606136502291339L;
+
+	@Id 
+	@Column(name="id_chamado")
 	private int numero;
 	
+	@Column(name="dt_abertura")
 	private Date dataAbertura;
 	
+	@Column(name="dt_fechamento")
 	private Date dataFechamento;
 	
+	@Column(name="status")
 	private String status;
 	
 	@NotNull 
 	@Size(max=100,min=10, message="O tamanho da descrição deve estar entre 10 e 100 caracteres")
+	@Column(name="descricao")
 	private String descricao;
 	
 	@NotNull
+	@Column(name="id_fila")
 	private Fila fila;
-	
 	
 	public static final String ABERTO = "aberto";
 	public static final String FECHADO = "fechado";
