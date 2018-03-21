@@ -1,8 +1,38 @@
 package br.usjt.arqsw.entity;
 
-public class Usuario {
+import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 
+ * @author pgsilva
+ * Paulo Guilherme da Silva 816113977
+ */
+@Entity
+@Table(name="usuario")
+public class Usuario implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2666200939622264260L;
+	
+	@Id
+	@GeneratedValue
+	@Column(name="id_usuario")
+	@NotNull
+	private int id;
+	
+	@Column(name="username")
 	private String username;
+	
+	@Column(name="pass")
 	private String password;
 	
 	
