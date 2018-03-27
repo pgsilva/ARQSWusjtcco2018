@@ -73,7 +73,7 @@ public class ManterChamadosController {
 			model.addAttribute("fila", fila);
 
 			// TODO Código para carregar os chamados
-			ArrayList<Chamado> chamados = cs.listarChamados(fila);
+			List<Chamado> chamados = cs.listarChamados(fila);
 			model.addAttribute("chamados", chamados);
 			
 			return "ChamadoListarExibir";
@@ -82,6 +82,39 @@ public class ManterChamadosController {
 			e.printStackTrace();
 			return "Erro";
 		}
+	}
+	
+	@RequestMapping("/novo_chamado")
+	public String novoChamado(Model model) {
+		try {
+			model.addAttribute("filas", listarFilas());
+			return "NovoChamado";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+
+	@RequestMapping("/criar_chamado")
+	public String criarChamado(@Valid Chamado chamado, BindingResult result, Model model) {
+		try {
+			if (result.hasFieldErrors()) {
+				model.addAttribute("filas", listarFilas());
+				System.out.println("Deu erro " + result.toString());
+				return "NovoChamado";
+			}
+			int numeroChamado = cs.novoChamado(chamado);
+			model.addAttribute("numeroChamado", numeroChamado);
+			return "ChamadoSalvo";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+
+
+	private List<Chamado> listarChamados(Fila fila) throws IOException {
+		return cs.listarChamados(fila);
 	}
 
 }

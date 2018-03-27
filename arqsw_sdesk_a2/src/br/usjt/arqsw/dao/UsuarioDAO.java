@@ -1,27 +1,31 @@
 package br.usjt.arqsw.dao;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import br.usjt.arqsw.entity.Usuario;
+
+
+/**
+ * 
+ * @author pg__s
+ *	Paulo Guilherme da Silva 816113977
+ */
 @Repository
 public class UsuarioDAO {
 	
-	private Connection conn;
-	
-	@Autowired
-	public UsuarioDAO(DataSource dataSource) throws IOException {
-		try{
-			this.conn = dataSource.getConnection();
-		}catch(SQLException e) {
-			throw new IOException(e);
-		}
-		
+	@PersistenceContext
+	EntityManager manager;
+
+	public boolean buscarLogin(Usuario usuario) throws Exception {
+		Query query = manager
+				.createQuery("select u from Usuario u where u.username = :username and u.password = :password");
+		query.setParameter("username", usuario.getUsername());
+		query.setParameter("password", usuario.getPassword());
+		return query.getSingleResult() != null;
 	}
 
 }
