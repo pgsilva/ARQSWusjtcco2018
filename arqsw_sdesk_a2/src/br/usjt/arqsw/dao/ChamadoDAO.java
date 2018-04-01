@@ -27,67 +27,58 @@ import br.usjt.arqsw.entity.Fila;
  */
 @Repository
 public class ChamadoDAO {
-	
 	@PersistenceContext
 	EntityManager manager;
-
-	@SuppressWarnings("unchecked")
-	public List<Chamado> listarChamados(Fila fila) throws IOException {
-		fila = manager.find(Fila.class, fila.getId());
-		Query query = manager.createQuery("select c from Chamado c where c.idFila = :fila");
-		query.setParameter("fila", fila);
-		return (List<Chamado>) query.getResultList();
-	}
-
-	@SuppressWarnings("unchecked")
-	public int novoChamado(Chamado chamado) throws IOException {
+	
+	
+	public int inserirChamado(Chamado chamado) throws IOException {
 		manager.persist(chamado);
-		Query query = manager.createQuery("select c from Chamado c");
-		List<Chamado> chamados = (List<Chamado>) query.getResultList();
-		return chamados.get(chamados.size() - 1).getNumero();
-	}
-	/*private Connection conn;
-
-	
-	@Autowired
-	public ChamadoDAO(DataSource dataSource ) throws IOException{
-		try {
-			this.conn = dataSource.getConnection();
-		}catch(SQLException e) {
-			throw new IOException(e);
-		}
+		return chamado.getNumero();
 	}
 	
-	public ArrayList<Chamado> listarChamados(Fila fila) throws IOException{
-		ArrayList<Chamado> lista = new ArrayList<>();
-		String query = "select c.id_chamado, c.descricao, c.dt_abertura, f.nm_fila "+
-				"from chamado c, fila f where c.id_fila = f.id_fila and c.id_fila=?";
+	public List<Chamado> listarChamadosAbertos(Fila fila) throws IOException{
+		//conectei minha fila com a persistencia
+		fila = manager.find(Fila.class, fila.getId());
 		
-		try(PreparedStatement pst = conn.prepareStatement(query);){
-			pst.setInt(1, fila.getId());
-			
-			try(ResultSet rs = pst.executeQuery();){
-				while(rs.next()){
-					Chamado chamado = new Chamado();
-					chamado.setNumero(rs.getInt("id_chamado"));
-					chamado.setDescricao(rs.getString("descricao"));
-					chamado.setDataAbertura(rs.getDate("dt_abertura"));
-					fila.setNome(rs.getString("nm_fila"));
-					chamado.setFila(fila);
-					lista.add(chamado);
-				}
-			} catch(SQLException e){
-				e.printStackTrace();
-				throw new IOException(e);
+		String jpql = "select c from Chamado c where c.fila = :fila and c.status = :status";
+		
+		Query query = manager.createQuery(jpql);
+		query.setParameter("fila", fila);
+		query.setParameter("status", Chamado.ABERTO);
+
+		List<Chamado> result = query.getResultList();
+		return result;
+	}
+	
+	public List<Chamado> listarChamados(Fila fila) throws IOException{
+		//conectei minha fila com a persistencia
+				fila = manager.find(Fila.class, fila.getId());
+				
+				String jpql = "select c from Chamado c where c.fila = :fila";
+				
+				Query query = manager.createQuery(jpql);
+				query.setParameter("fila", fila);
+
+				@SuppressWarnings("unchecked")
+				List<Chamado> result = query.getResultList();
+				return result;
+	}
+
+	public void fecharChamados(ArrayList<Integer> lista) throws IOException{
+		
+			for(int id:lista){
+				Chamado chamado = manager.find(Chamado.class, id);
+				chamado.setDataFechamento(new java.util.Date());
+				chamado.setStatus(Chamado.FECHADO);
+				manager.merge(chamado);
 			}
-		} catch(SQLException e){
-			e.printStackTrace();
-			throw new IOException(e);
-		}
-		return lista;
-	}   ANTES DO REFATORAMENTO PRO JPA*/
+		
+	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Chamado> listarChamados(){
+		return manager.createQuery("select c from Chamado c").getResultList();
+	}
 
 
-	
 }

@@ -18,18 +18,29 @@ import br.usjt.arqsw.entity.Fila;
  */
 @Service
 public class ChamadoService {
+	ChamadoDAO dao;
 	
 	@Autowired
-	private ChamadoDAO dao;
+	public ChamadoService(ChamadoDAO dao){
+		this.dao = dao;
+	}
 	
 	public int novoChamado(Chamado chamado) throws IOException{
-		chamado.setStatus(Chamado.ABERTO);
 		chamado.setDataAbertura(new Date());
-		return dao.novoChamado(chamado);
+		chamado.setDataFechamento(null);
+		chamado.setStatus(Chamado.ABERTO);
+		return dao.inserirChamado(chamado);
 	}
 	
-	public List<Chamado> listarChamados(Fila Fila) throws IOException {
-		return dao.listarChamados(Fila);
+	public List<Chamado> listarChamados(Fila fila) throws IOException{
+		return dao.listarChamados(fila);
 	}
+	
+	public List<Chamado> listarChamados() throws IOException{
+		
+		return dao.listarChamados();
+	}
+	
+
 
 }

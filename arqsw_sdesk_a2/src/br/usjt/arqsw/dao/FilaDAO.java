@@ -24,11 +24,9 @@ import br.usjt.arqsw.entity.Fila;
 
 @Repository
 public class FilaDAO {
-
 	@PersistenceContext
 	EntityManager manager;
-
-	@SuppressWarnings("unchecked")
+	
 	public List<Fila> listarFilas() throws IOException {
 		return manager.createQuery("select f from Fila f").getResultList();
 	}
@@ -36,5 +34,4 @@ public class FilaDAO {
 	public Fila carregar(int id) throws IOException {
 		return manager.find(Fila.class, id);
 	}
-
 }
