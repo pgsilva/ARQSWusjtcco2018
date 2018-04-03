@@ -63,7 +63,17 @@ public class ChamadoDAO {
 				List<Chamado> result = query.getResultList();
 				return result;
 	}
+	
+	public void fecharChamado(Chamado chamado) throws IOException {
+		manager.remove(chamado);
+		manager.merge(chamado);
 
+	}
+	
+	public Chamado carregar(int idChamado) throws IOException {
+		return manager.find(Chamado.class, idChamado);
+	}
+	
 	public void fecharChamados(ArrayList<Integer> lista) throws IOException{
 		
 			for(int id:lista){

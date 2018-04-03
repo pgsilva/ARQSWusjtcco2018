@@ -1,9 +1,10 @@
 package br.usjt.arqsw.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,29 +25,25 @@ import br.usjt.arqsw.service.FilaService;
  */
 @Controller
 public class ManterChamadosController {
-	
-	private FilaService fs;
-	private ChamadoService cs;
+	@Autowired
+	private FilaService filaService;
 
 	@Autowired
-	public ManterChamadosController(ChamadoService cs, FilaService fs ) {
-		this.fs = fs;
-		this.cs = cs;
-	}
+	private ChamadoService chamadoService;
 
-	
+	/**
+	 * 
+	 * @return
+	 */
 	@RequestMapping("index")
 	public String inicio() {
 		return "index";
 	}
 
-	private List<Fila> listarFilas() throws IOException{
-			return fs.listarFilas();
-	}
-	
 	/**
 	 * 
-	 * @param model Acesso à request http
+	 * @param model
+	 *            Acesso � request http
 	 * @return JSP de Listar Chamados
 	 */
 	@RequestMapping("/listar_filas_exibir")
@@ -59,7 +56,7 @@ public class ManterChamadosController {
 			return "Erro";
 		}
 	}
-	
+
 	@RequestMapping("/listar_chamados_exibir")
 	public String listarChamadosExibir(@Valid Fila fila, BindingResult result, Model model) {
 		try {
@@ -67,15 +64,10 @@ public class ManterChamadosController {
 				model.addAttribute("filas", listarFilas());
 				System.out.println("Deu erro " + result.toString());
 				return "ChamadoListar";
-				//return "redirect:listar_filas_exibir";
 			}
-			fila = fs.carregar(fila.getId());
+			fila = filaService.carregar(fila.getId());
 			model.addAttribute("fila", fila);
-
-			// TODO Código para carregar os chamados
-			List<Chamado> chamados = cs.listarChamados(fila);
-			model.addAttribute("chamados", chamados);
-			
+			model.addAttribute("chamados", listarChamados(fila));
 			return "ChamadoListarExibir";
 
 		} catch (IOException e) {
@@ -83,7 +75,7 @@ public class ManterChamadosController {
 			return "Erro";
 		}
 	}
-	
+
 	@RequestMapping("/novo_chamado")
 	public String novoChamado(Model model) {
 		try {
@@ -95,6 +87,7 @@ public class ManterChamadosController {
 		}
 	}
 
+	@Transactional
 	@RequestMapping("/criar_chamado")
 	public String criarChamado(@Valid Chamado chamado, BindingResult result, Model model) {
 		try {
@@ -103,7 +96,7 @@ public class ManterChamadosController {
 				System.out.println("Deu erro " + result.toString());
 				return "NovoChamado";
 			}
-			int numeroChamado = cs.novoChamado(chamado);
+			int numeroChamado = chamadoService.novoChamado(chamado);
 			model.addAttribute("numeroChamado", numeroChamado);
 			return "ChamadoSalvo";
 		} catch (IOException e) {
@@ -112,9 +105,52 @@ public class ManterChamadosController {
 		}
 	}
 
-
-	private List<Chamado> listarChamados(Fila fila) throws IOException {
-		return cs.listarChamados(fila);
+	@RequestMapping("/listar_filas_fechar")
+	public String listarFilhasFechar(Model model) {
+		try {
+			model.addAttribute("filas", listarFilas());
+			return "ListarFilas";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
 	}
 
+	@RequestMapping("/listar_chamados_abertos")
+	public String listarChamadosAbertos(@Valid Fila fila, BindingResult result, Model model) {
+		try {
+			fila = filaService.carregar(fila.getId());
+			model.addAttribute("chamadosAbertos", listarChamadosAbertos(fila));
+			model.addAttribute("fila", fila);
+			return "ListarChamadosAbertos";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+
+	@Transactional
+	@RequestMapping("/fechar_chamados")
+	public String fecharChamado(HttpServletRequest request) {
+		try {
+			String[] chamados = request.getParameterValues("chamados");
+			chamadoService.fecharChamados(chamados);
+			return "ChamadoFechado";
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "Erro";
+		}
+	}
+
+	private List<Fila> listarFilas() throws IOException {
+		return filaService.listarFilas();
+	}
+
+	private List<Chamado> listarChamados(Fila fila) throws IOException {
+		return chamadoService.listarChamados(fila);
+	}
+
+	private List<Chamado> listarChamadosAbertos(Fila fila) throws IOException {
+		return chamadoService.listarChamadosAbertos(fila);
+}
 }

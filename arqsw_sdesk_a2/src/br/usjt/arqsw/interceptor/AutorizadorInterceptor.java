@@ -7,6 +7,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Paulo Guilherme da Silva 816113977
+ * 
  * @author pg__s
  *
  */
@@ -17,7 +18,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		if (request.getRequestURI().endsWith("login") || request.getRequestURI().endsWith("fazer_login")
 				|| request.getRequestURI().contains("css") || request.getRequestURI().contains("js")
-				|| request.getRequestURI().contains("img")) {
+				|| request.getRequestURI().contains("img") || request.getRequestURI().contains("rest")) {
 			return true;
 		}
 		if (request.getSession().getAttribute("usuarioLogado") != null) {

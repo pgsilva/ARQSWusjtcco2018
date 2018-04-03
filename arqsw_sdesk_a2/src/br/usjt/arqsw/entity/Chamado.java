@@ -7,9 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 /**
@@ -31,9 +35,11 @@ public class Chamado implements Serializable {
 	@Column(name="id_chamado")
 	private int numero;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	@Column(name="dt_abertura")
 	private Date dataAbertura;
 	
+	@JsonFormat(pattern="dd/MM/yyyy")
 	@Column(name="dt_fechamento")
 	private Date dataFechamento;
 	
@@ -45,8 +51,9 @@ public class Chamado implements Serializable {
 	@Column(name="descricao")
 	private String descricao;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_fila")
 	@NotNull
-	@Column(name="id_fila")
 	private Fila fila;
 	
 	public static final String ABERTO = "aberto";

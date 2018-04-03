@@ -11,36 +11,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.usjt.arqsw.entity.Usuario;
 import br.usjt.arqsw.service.UsuarioService;
 
-
 /**
  * 
- * @author pgsilva
- * Paulo Guilherme da Silva 816113977
+ * @author pgsilva Paulo Guilherme da Silva 816113977
  *
  */
 @Controller
 public class ManterLoginController {
-	
+
 	@Autowired
-	private UsuarioService us;
+	private UsuarioService loginService;
+	private String isValidLogin;
 
 	@RequestMapping("/fazer_login")
 	public String login(@Valid Usuario login, BindingResult result, HttpSession session) {
 		try {
-			if (result.hasFieldErrors()) {
-				System.out.println("Deu erro " + result.toString());
-				return "Login";
-			}
-			boolean isValidLogin = us.buscarLogin(login);
+			isValidLogin = loginService.buscarLogin(login);
 			session.setAttribute("usuarioLogado", isValidLogin);
-			if (!isValidLogin) {
-				return "Login";
-			}
 			return "index";
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			return "Erro";
+			isValidLogin = "Invalido";
+			session.setAttribute("usuarioLogado", isValidLogin);
+			return "Login";
 		}
 	}
 
@@ -54,6 +47,5 @@ public class ManterLoginController {
 		session.invalidate();
 		return "Login";
 	}
-	
 
 }

@@ -8,16 +8,15 @@ import br.usjt.arqsw.entity.Usuario;
 
 /**
  * 
- * @author pg__s
- *Paulo Guilherme da Silva 816113977
+ * @author pg__s Paulo Guilherme da Silva 816113977
  */
 @Service
 public class UsuarioService {
-	
+
 	@Autowired
 	private UsuarioDAO loginRepository;
 
-	public boolean buscarLogin(Usuario usuario) throws Exception {
+	public String buscarLogin(Usuario usuario) throws Exception {
 		return loginRepository.buscarLogin(usuario);
 	}
 }

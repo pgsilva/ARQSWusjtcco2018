@@ -18,7 +18,7 @@
 	    <!-- Container Principal -->
 	    <div id="main" class="container">
 	    	<h3 class="page-header">Login</h3>
-    		<c:if test="${usuarioLogado eq false }">
+    		<c:if test="${usuarioLogado eq 'Invalido'}">
     			<div class="row">
     				<div class="col-md-4">
 		    			<p style="padding: 15px;" class="bg-info">Usuário ou Senha inválidos!</p>

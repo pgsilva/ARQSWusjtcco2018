@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,52 +30,56 @@ import br.usjt.arqsw.service.FilaService;
 @RestController
 public class ManterChamadosRestController {
 
-	private ChamadoService cs;
-	private FilaService fs;
+	@Autowired
+	private ChamadoService chamadoService;
 
 	@Autowired
-	public ManterChamadosRestController(ChamadoService cs, FilaService fs) {
-		this.cs = cs;
-		this.fs = fs;
-	}
+	private FilaService filaService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "rest/chamados")
 	public @ResponseBody List<Chamado> listarChamados() {
 		try {
-			return cs.listarChamados();
+			return chamadoService.listarChamados();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value = "rest/chamados/{id}")
-	public @ResponseBody List<Chamado> listarChamados(@PathVariable("id") Long id){
-		
-		List<Chamado> chamados = null;
+
+	@RequestMapping(method = RequestMethod.GET, value = "rest/chamados/{filaId}")
+	public ResponseEntity<List<Chamado>> listarChamados(@PathVariable(value = "filaId") int filaId) {
 		try {
-			
-			Fila fila = fs.carregar(id.intValue());
-			chamados = cs.listarChamados(fila);
-			
-		}catch(IOException e ) {
+			Fila fila = filaService.carregar(filaId);
+			List<Chamado> chamados = chamadoService.listarChamados(fila);
+			return new ResponseEntity<>(chamados, HttpStatus.OK);
+		} catch (IOException e) {
 			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return chamados;
-		
 	}
 
 	@Transactional
 	@RequestMapping(method = RequestMethod.POST, value = "rest/chamado")
-	public ResponseEntity<Chamado> inserirChamado(@RequestBody Chamado chamado) throws IOException {
+	public ResponseEntity<Chamado> inserirChamado(@RequestBody Chamado chamado) {
 		try {
-			int id = cs.novoChamado(chamado);
+			int id = chamadoService.novoChamado(chamado);
 			chamado.setNumero(id);
-			return new ResponseEntity<>(chamado, HttpStatus.OK);
+			return new ResponseEntity<>(chamado, HttpStatus.CREATED);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(chamado, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
+
+	@Transactional
+	@RequestMapping(method = RequestMethod.DELETE, value = "rest/chamado/fechar")
+	public ResponseEntity<Void> fecharChamados(@RequestParam(value = "chamados") String[] chamados) {
+		try {
+			chamadoService.fecharChamados(chamados);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+}
 }

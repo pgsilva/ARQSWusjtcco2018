@@ -41,6 +41,17 @@ public class ChamadoService {
 		return dao.listarChamados();
 	}
 	
+	public List<Chamado> listarChamadosAbertos(Fila fila) throws IOException {
+		return dao.listarChamadosAbertos(fila);
+	}
+	
+	public void fecharChamados(String[] chamados) throws IOException {
+		for (String idChamado : chamados) {
+			Chamado chamado = dao.carregar(Integer.parseInt(idChamado));
+			dao.fecharChamado(chamado);
+		}
+	}
+
 
 
 }
