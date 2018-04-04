@@ -66,7 +66,6 @@ public class ChamadoDAO {
 	
 	public void fecharChamado(Chamado chamado) throws IOException {
 		manager.remove(chamado);
-		manager.merge(chamado);
 
 	}
 	
@@ -80,7 +79,7 @@ public class ChamadoDAO {
 				Chamado chamado = manager.find(Chamado.class, id);
 				chamado.setDataFechamento(new java.util.Date());
 				chamado.setStatus(Chamado.FECHADO);
-				manager.merge(chamado);
+				manager.remove(chamado);
 			}
 		
 	}

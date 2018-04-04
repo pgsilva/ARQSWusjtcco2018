@@ -42,10 +42,10 @@
 							<tbody>
 								<c:forEach var="chamado" items="${chamadosAbertos }">
 									<tr>
-										<td><input type="checkbox" class="" name="chamados" value="${chamado.idChamado }"></td>
-										<td>${chamado.idChamado }</td>
+										<td><input type="checkbox" class="" name="chamados" value="${chamado.numero }"></td>
+										<td>${chamado.numero }</td>
 										<td>${chamado.descricao }</td>
-										<td><fmt:formatDate value="${chamado.dtAbertura }" pattern="dd/MM/yyyy"/>
+										<td><fmt:formatDate value="${chamado.dataAbertura }" pattern="dd/MM/yyyy"/>
 									</tr>
 								</c:forEach>
 							</tbody>
