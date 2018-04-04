@@ -12,9 +12,39 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                	<li><a href="novo_chamado">Criar Chamado</a></li>
+                	<li>
+                		<a class=" dropdown-toggle" 
+                			type="button" id="dropdownMenuButton"
+                		    data-toggle="dropdown" aria-haspopup="true"
+                		    aria-expanded="false">
+						  	Chamado
+						 </a>
+												 
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						    <a class="dropdown-item" href="novo_chamado">Criar Chamado</a><br>
+						    <a class="dropdown-item" href="listar_filas_exibir"> Consultar Chamados</a><br>
+						    <a class="dropdown-item" href="listar_filas_fechar">Fechar Chamados</a><br>
+						  </div>
+					</li>
+					<li>
+                		<a class="dropdown-toggle" 
+                			type="button" id="dropdownMenuButton"
+                		    data-toggle="dropdown" aria-haspopup="true"
+                		    aria-expanded="false">
+						  	Fila
+						 </a>
+												 
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						    <a class="dropdown-item" href="nova_fila">Criar Fila</a><br>
+						    <a class="dropdown-item" href="listar_filas"> Consultar Filas</a><br>
+						    <a class="dropdown-item" href="inativar_fila">Inativar Fila</a><br>
+						  </div>
+					</li>
+                	
+                	<!--  <li><a href="novo_chamado">Criar Chamado</a></li>
                     <li><a href="listar_filas_exibir">Consultar Chamados</a></li>
                     <li><a href="fechar_chamados">Fechar Chamados</a></li>
+                   	-->
                     <li><a href="logout">Logout</a></li>
                 </ul>
             </div>

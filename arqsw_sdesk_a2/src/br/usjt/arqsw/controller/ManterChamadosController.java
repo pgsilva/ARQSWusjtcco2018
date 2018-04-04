@@ -152,5 +152,5 @@ public class ManterChamadosController {
 
 	private List<Chamado> listarChamadosAbertos(Fila fila) throws IOException {
 		return chamadoService.listarChamadosAbertos(fila);
-}
+	}
 }

@@ -7,17 +7,17 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 		<!-- provedor/implementacao do JPA -->
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<!-- entidade mapeada -->
-		<class>br.usjt.arqsw.model.Fila</class>
-		<class>br.usjt.arqsw.model.Chamado</class>
-		<class>br.usjt.arqsw.model.Usuario</class>
+		<class>br.usjt.arqsw.entity.Fila</class>
+		<class>br.usjt.arqsw.entity.Chamado</class>
+		<class>br.usjt.arqsw.entity.Usuario</class>
 		<properties>
 			<!-- dados da conexao -->
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
 				value="jdbc:mysql://localhost/servicedesk?createDatabaseIfNotExist=true&amp;useUnic
 ode=yes&amp;characterEncoding=UTF-8" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.user" value="alunos" />
+			<property name="javax.persistence.jdbc.password" value="alunos" />
 			<!-- propriedades do hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
