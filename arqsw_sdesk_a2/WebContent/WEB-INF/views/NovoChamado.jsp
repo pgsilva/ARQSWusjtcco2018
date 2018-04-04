@@ -29,8 +29,8 @@
 	            <div class="row">
 	                <div class="form-group col-md-4">
 	                    <label for="fila">Fila:</label>
-	                    <form:errors path="chamado.idFila.id" cssStyle="color:red"/><br>
-	                    <select class="form-control" name="idFila.id">
+	                    <form:errors path="chamado.fila.id" cssStyle="color:red"/><br>
+	                    <select class="form-control" name="fila.id">
 	                        <option value="0"></option>
 	                        <c:forEach var="fila" items="${filas}">
 	                            <option value="${fila.id}">${fila.nome}</option>

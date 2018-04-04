@@ -40,13 +40,13 @@
 					<tbody>
 						<c:forEach var="chamado" items="${chamados}">
 							<tr>
-								<td align="right">${chamado.idChamado}</td>
+								<td align="right">${chamado.numero}</td>
 								<td align="left">${chamado.descricao}</td>
-								<td align="center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dtAbertura}"/></td>
-								<td align="center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dtFechamento}"/></td>
+								<td align="center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dataAbertura}"/></td>
+								<td align="center"><fmt:formatDate pattern="dd/MM/yyyy" value="${chamado.dataFechamento}"/></td>
 								<td align="center">${chamado.status}</td>
-								<c:set var="abertura" value="${chamado.dtAbertura.getTime()}"></c:set>
-								<c:set var="fechamento" value="${chamado.dtFechamento.getTime()}"></c:set>
+								<c:set var="abertura" value="${chamado.dataAbertura.getTime()}"></c:set>
+								<c:set var="fechamento" value="${chamado.dataFechamento.getTime()}"></c:set>
 								<fmt:formatNumber var="tempo" value="${(fechamento - abertura)/(24 * 60 * 60 * 1000)}" type="number" pattern="#"></fmt:formatNumber>
 								<c:if test="${tempo lt 0}"><c:set var="tempo" value="0"></c:set></c:if>
 								<td align="center"><c:out value="${tempo}"/></td>
