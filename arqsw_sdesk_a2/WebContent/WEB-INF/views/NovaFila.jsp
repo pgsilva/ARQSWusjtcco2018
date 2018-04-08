@@ -18,19 +18,19 @@
 		<c:import url="Menu.jsp" />
 		<div id="main" class="container">
 			<h3 class="page-header">Nova Fila</h3>
-			<form action="criar_fila" method="post">
+			<form action="nova_fila" method="post">
 				<div class="row">
 	                <div class="form-group col-md-4">
-	                    <label for="chamado">Nome Figura:</label>
+	                    <label for="fila">Nome Fila:</label>
 	                    <form:errors path="fila.nome" cssStyle="color:red"/><br>
 	                    <input class="form-control" type="text" name="nome" maxlength="100">
 	                </div>
 	            </div>
 	            <div class="row">
 	                <div class="form-group col-md-4">
-	                    <label for="chamado">Caminho Figura:</label>
-	                    <form:errors path="fila.caminhoFigura" cssStyle="color:red"/><br>
-	                    <input class="form-control" type="text" name="caminhoFigura" maxlength="100">
+	                    <label for="fila">Caminho Figura:</label>
+	                    <form:errors path="fila.figura" cssStyle="color:red"/><br>
+	                    <input class="form-control" type="text" name="figura" maxlength="100">
 	                </div>
 	            </div>
 
