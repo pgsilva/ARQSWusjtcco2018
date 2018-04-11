@@ -37,7 +37,7 @@
 						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						    <a class="dropdown-item" href="nova_fila">Criar Fila</a><br>
 						    <a class="dropdown-item" href="listar_filas"> Consultar Filas</a><br>
-						    <a class="dropdown-item" href="inativar_fila">Inativar Fila</a><br>
+						   
 						  </div>
 					</li>
                 	
