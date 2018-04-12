@@ -45,6 +45,16 @@ public class ManterChamadosRestController {
 		}
 		return null;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "rest/filas")
+	public @ResponseBody List<Fila> listarFilas() {
+		try {
+			return filaService.listarFilas();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "rest/chamados/{filaId}")
 	public ResponseEntity<List<Chamado>> listarChamados(@PathVariable(value = "filaId") int filaId) {
