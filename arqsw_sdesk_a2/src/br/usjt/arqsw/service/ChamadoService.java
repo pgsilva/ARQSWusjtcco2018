@@ -1,16 +1,17 @@
 package br.usjt.arqsw.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import br.usjt.arqsw.dao.ChamadoDAO;
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
+import br.usjt.arqsw.mapeamento.ResultadoJSON;
 /**
  * 
  * @author pg__s
@@ -51,6 +52,16 @@ public class ChamadoService {
 			dao.fecharChamado(chamado);
 		}
 	}
+	
+	public ResultadoJSON carregaClinte(String url) {
+		RestTemplate restTemplate = new RestTemplate();
+		ResultadoJSON result = new ResultadoJSON();
+		result = restTemplate.getForObject(url, ResultadoJSON.class);
+		return result;
+	}
+	
+
+
 
 
 

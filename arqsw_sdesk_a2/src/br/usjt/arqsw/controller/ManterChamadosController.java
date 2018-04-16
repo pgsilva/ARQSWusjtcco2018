@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
+import br.usjt.arqsw.mapeamento.ResultadoJSON;
 import br.usjt.arqsw.service.ChamadoService;
 import br.usjt.arqsw.service.FilaService;
 /**
@@ -25,6 +26,8 @@ import br.usjt.arqsw.service.FilaService;
  */
 @Controller
 public class ManterChamadosController {
+	
+	private static String URL_CLIENTE_REST = "https://reqres.in/api/users?per_page=15&page=1";
 	@Autowired
 	private FilaService filaService;
 
@@ -79,7 +82,9 @@ public class ManterChamadosController {
 	@RequestMapping("/novo_chamado")
 	public String novoChamado(Model model) {
 		try {
+			ResultadoJSON json = chamadoService.carregaClinte(URL_CLIENTE_REST);
 			model.addAttribute("filas", listarFilas());
+			model.addAttribute("clientes", json);
 			return "NovoChamado";
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,6 +114,7 @@ public class ManterChamadosController {
 	public String listarFilhasFechar(Model model) {
 		try {
 			model.addAttribute("filas", listarFilas());
+
 			return "ListarFilas";
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -142,6 +148,7 @@ public class ManterChamadosController {
 		}
 	}
 
+	
 	private List<Fila> listarFilas() throws IOException {
 		return filaService.listarFilas();
 	}

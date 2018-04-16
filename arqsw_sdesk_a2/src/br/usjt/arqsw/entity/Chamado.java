@@ -56,6 +56,9 @@ public class Chamado implements Serializable {
 	@JoinColumn(name = "id_fila")
 	@NotNull
 	private Fila fila;
+	@JoinColumn(name = "id_rh")
+	@NotNull
+	private int rh;
 	
 	public static final String ABERTO = "aberto";
 	public static final String FECHADO = "fechado";

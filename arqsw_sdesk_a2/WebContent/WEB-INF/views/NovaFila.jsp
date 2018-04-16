@@ -30,7 +30,7 @@
 	                <div class="form-group col-md-4">
 	                    <label for="fila">Caminho Figura:</label>
 	                    <form:errors path="fila.figura" cssStyle="color:red"/><br>
-	                    <input class="form-control" type="text" name="figura" maxlength="100">
+	                    <input class="file" type="file" name="file" id="figura">
 	                </div>
 	            </div>
 

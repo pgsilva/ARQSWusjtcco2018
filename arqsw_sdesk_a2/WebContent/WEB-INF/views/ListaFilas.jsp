@@ -46,7 +46,7 @@
 							<c:forEach var="fila" items="${filas }">
 								<tr>
 									<td>${fila.nome }</td>
-									<td>${fila.figura }</td>
+									<td><img alt="?" src="img/${fila.caminhofigura}" height="48" width="48" class="img-circle"></td>
 									<td><a href="form_edita_fila?id=${fila.id }" class="button button-primary">Editar</a>
 									<td><a href="excluir_fila?id=${fila.id }" class="button button-danger">Excluir</a>
 								</tr>

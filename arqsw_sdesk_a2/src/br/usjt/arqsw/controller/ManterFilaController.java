@@ -3,6 +3,7 @@ package br.usjt.arqsw.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 import br.usjt.arqsw.service.ChamadoService;
@@ -25,6 +27,8 @@ import br.usjt.arqsw.service.FilaService;
 @Controller
 public class ManterFilaController {
 	
+	@Autowired
+	private ServletContext servletContext;
 	
 	@Autowired
 	private FilaService filaService;
@@ -36,16 +40,17 @@ public class ManterFilaController {
 	public String formCriarFila() {
 		return "NovaFila";
 	}
-
+	
 	@Transactional
 	@RequestMapping("/nova_fila")
-	public String criarFila(@Valid Fila fila, BindingResult result) {
+	public String criarFila(@Valid Fila fila, BindingResult result, @RequestParam("file") MultipartFile file) {
 		try {
 			if (result.hasFieldErrors("nome")) {
 				System.out.println("Deu erro " + result.toString());
 				return "NovaFila";
 			}
 			filaService.criar(fila);
+			filaService.gravarImagem(servletContext, fila, file);
 			return "FilaCriada";
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -73,7 +78,7 @@ public class ManterFilaController {
 			model.addAttribute("filas", filaService.listarFilas());
 			if (!chamadosAbertosFila.isEmpty()) {
 				model.addAttribute("chamadosAbertosFila", chamadosAbertosFila);
-				return "ListaFilas";
+				return "ListarFilas";
 			}
 			filaService.deletar(fila);
 			return "FilaExcluida";
@@ -94,15 +99,16 @@ public class ManterFilaController {
 			return "Erro";
 		}
 	}
-
+	
 	@Transactional
 	@RequestMapping("/edita_fila")
-	public String editaFila(Fila fila, Model model) {
+	public String editaFila(Fila fila, Model model, @RequestParam("file")MultipartFile file) {
 		try {
 			Fila filaEditada = filaService.carregar(fila.getId());
 			filaEditada.setNome(fila.getNome());
 			filaEditada.setFigura(fila.getFigura());
 			filaService.alterar(filaEditada);
+			filaService.gravarImagem(servletContext, filaEditada, file);
 			model.addAttribute("filas", filaService.listarFilas());
 			return "ListaFilas";
 		} catch (IOException e) {

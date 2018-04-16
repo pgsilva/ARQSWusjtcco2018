@@ -38,6 +38,31 @@
 	                    </select>
 	                </div>
 	            </div>
+	            <hr><h3>Cliente:</h3>
+	             <div class="row">
+	                <div class="form-group col-md-4">
+	                    <label for="fila">Nome:</label>
+	                    <form:errors path="chamado.fila.id" cssStyle="color:red"/><br>
+	                    <select class="form-control" name="fila.id">
+	                        <option value="0"></option>
+	                        <c:forEach var="fila" items="${filas}">
+	                            <option value="${fila.id}">${fila.nome}</option>
+	                        </c:forEach>
+	                    </select>
+	                </div>
+	            </div>
+	             <div class="row">
+	                <div class="form-group col-md-4">
+	                    <label for="fila">Sobrenome:</label>
+	                    <form:errors path="chamado.fila.id" cssStyle="color:red"/><br>
+	                    <select class="form-control" name="fila.id">
+	                        <option value="0"></option>
+	                        <c:forEach var="fila" items="${filas}">
+	                            <option value="${fila.id}">${fila.nome}</option>
+	                        </c:forEach>
+	                    </select>
+	                </div>
+	            </div>
 	            <div id="actions" class="row">
 	                <div class="col-md-12">
 	                    <button type="submit" class="btn btn-primary" >Salvar Chamado</button>
