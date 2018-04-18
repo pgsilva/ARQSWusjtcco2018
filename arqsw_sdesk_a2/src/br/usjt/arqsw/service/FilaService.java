@@ -54,7 +54,7 @@ public class FilaService {
 		if(!file.isEmpty()) {
 			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
 			String path = servletContext.getRealPath(servletContext.getContextPath());
-			path = path.substring(0, path.lastIndexOf('/'));
+			path = path.substring(0, path.lastIndexOf('\\'));
 			String nomeArquivo = "img" + fila.getId()+".jpg";
 			fila.setFigura(nomeArquivo);
 			alterar(fila);

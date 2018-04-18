@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
+
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
 import br.usjt.arqsw.service.ChamadoService;
@@ -43,7 +45,7 @@ public class ManterFilaController {
 	
 	@Transactional
 	@RequestMapping("/nova_fila")
-	public String criarFila(@Valid Fila fila, BindingResult result, @RequestParam("file") MultipartFile file) {
+	public String criarFila(@Valid Fila fila, BindingResult result, @RequestParam("file") MultipartFile file){
 		try {
 			if (result.hasFieldErrors("nome")) {
 				System.out.println("Deu erro " + result.toString());
@@ -52,8 +54,9 @@ public class ManterFilaController {
 			filaService.criar(fila);
 			filaService.gravarImagem(servletContext, fila, file);
 			return "FilaCriada";
-		} catch (IOException e) {
+		} catch (IOException | MultipartException e) {
 			e.printStackTrace();
+			System.out.println(file);
 			return "Erro";
 		}
 	}
