@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.usjt.arqsw.entity.Chamado;
 import br.usjt.arqsw.entity.Fila;
-import br.usjt.arqsw.mapeamento.ResultadoJSON;
+import br.usjt.arqsw.mapeamento.Resultado;
 import br.usjt.arqsw.service.ChamadoService;
 import br.usjt.arqsw.service.FilaService;
 /**
@@ -82,9 +82,9 @@ public class ManterChamadosController {
 	@RequestMapping("/novo_chamado")
 	public String novoChamado(Model model) {
 		try {
-			ResultadoJSON json = chamadoService.carregaClinte(URL_CLIENTE_REST);
+			Resultado json = chamadoService.carregaClinte(URL_CLIENTE_REST);
 			model.addAttribute("filas", listarFilas());
-			model.addAttribute("clientes", json);
+			model.addAttribute("clientes", json.getData());
 			return "NovoChamado";
 		} catch (IOException e) {
 			e.printStackTrace();
